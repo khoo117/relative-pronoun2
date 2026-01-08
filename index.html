@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Relative Pronouns Quiz (A2–B1) | 10 Questions</title>
+  <style>
+    :root{
+      --bg:#0b1020; --card:#121a33; --muted:#aab3d6; --text:#eef1ff;
+      --border:rgba(255,255,255,.12); --accent:#7aa7ff;
+      --ok:#22c55e; --bad:#ef4444; --warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans","PingFang SC","Microsoft YaHei",sans-serif;
+      background:
+        radial-gradient(1200px 800px at 15% 10%, rgba(122,167,255,.18), transparent 55%),
+        radial-gradient(1000px 700px at 85% 20%, rgba(34,197,94,.12), transparent 50%),
+        radial-gradient(900px 700px at 50% 90%, rgba(245,158,11,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      padding:24px;
+    }
+    .wrap{max-width:980px; margin:0 auto}
+    header{
+      display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; justify-content:space-between;
+      margin-bottom:16px;
+    }
+    h1{margin:0; font-size:clamp(20px,2.5vw,28px)}
+    .subtitle{margin:4px 0 0; color:var(--muted); font-size:14px; line-height:1.35}
+    .pillbar{display:flex; gap:8px; flex-wrap:wrap}
+    .pill{
+      font-size:12px; color:rgba(255,255,255,.88);
+      border:1px solid var(--border); background:rgba(255,255,255,.04);
+      padding:6px 10px; border-radius:999px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+    }
+
+    .controls{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+      margin:14px 0 18px;
+    }
+    .btnrow{display:flex; gap:10px; flex-wrap:wrap}
+    button{
+      appearance:none; border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:14px;
+      transition:.15s transform,.15s background;
+    }
+    button:hover{background:rgba(255,255,255,.10)}
+    button:active{transform:scale(.98)}
+    .primary{border-color:rgba(122,167,255,.5); background:rgba(122,167,255,.14)}
+    .danger{border-color:rgba(239,68,68,.45); background:rgba(239,68,68,.12)}
+    .muted{color:var(--muted); font-size:13px}
+
+    .scorebox{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    .score{
+      font-variant-numeric:tabular-nums;
+      padding:8px 12px; border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      font-weight:700;
+    }
+    .status{font-size:13px; color:var(--muted)}
+    .warn{color:var(--warn)}
+
+    .q{
+      padding:14px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(0,0,0,.14);
+      margin-bottom:12px;
+    }
+    .qhead{
+      display:flex; gap:10px; align-items:flex-start; justify-content:space-between;
+    }
+    .qtitle{margin:0; font-size:15px; line-height:1.4}
+    .qmeta{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    .tag{
+      font-size:11px; color:rgba(255,255,255,.86);
+      border:1px solid var(--border); background:rgba(255,255,255,.04);
+      padding:4px 8px; border-radius:999px;
+    }
+    .speak{
+      border-color:rgba(255,255,255,.18);
+      padding:8px 10px;
+      border-radius:12px;
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    .opts{margin-top:10px; display:grid; gap:8px}
+    .opt{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 10px;
+      display:flex; gap:10px; align-items:flex-start;
+      background:rgba(255,255,255,.03);
+      cursor:pointer;
+      transition:.12s background,.12s border-color;
+    }
+    .opt:hover{background:rgba(255,255,255,.06)}
+    .opt input{margin-top:2px}
+    .opt .txt{line-height:1.35}
+    .feedback{
+      margin-top:10px;
+      font-size:13px;
+      color:var(--muted);
+      display:none;
+    }
+
+    /* instant highlight */
+    .q.correct{border-color:rgba(34,197,94,.55); background:rgba(34,197,94,.07)}
+    .q.wrong{border-color:rgba(239,68,68,.55); background:rgba(239,68,68,.06)}
+    .q.correct .feedback{display:block; color:rgba(34,197,94,.95)}
+    .q.wrong .feedback{display:block; color:rgba(239,68,68,.95)}
+
+    /* show correct after check */
+    .show-answers .opt.correct{
+      border-color:rgba(34,197,94,.55);
+      background:rgba(34,197,94,.08);
+    }
+    .show-answers .opt.wrongpick{
+      border-color:rgba(239,68,68,.55);
+      background:rgba(239,68,68,.08);
+    }
+
+    .explain{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px dashed rgba(255,255,255,.18);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+      font-size:13px;
+      display:none;
+    }
+    .show-answers .explain{display:block}
+
+    footer{
+      margin-top:16px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    @media (min-width: 740px){
+      .q{padding:16px}
+      .opts{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Relative Pronouns Quiz（A2–B1）</h1>
+        <p class="subtitle">
+          10 题单选｜选了立刻显示对/错｜错红/对绿｜一键看总分 + 正确答案 + 解释｜🔊 英文发音
+        </p>
+      </div>
+      <div class="pillbar">
+        <span class="pill">who / which / that / where</span>
+        <span class="pill">A2 → B1</span>
+        <span class="pill">Mobile + Desktop</span>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="controls">
+        <div class="btnrow">
+          <button class="primary" id="checkBtn">✅ Check score + show answers</button>
+          <button id="hideBtn">🙈 Hide answers</button>
+          <button class="danger" id="resetBtn">🔄 Reset</button>
+        </div>
+        <div class="scorebox">
+          <div class="score" id="scoreBadge">Score: 0 / 10</div>
+          <div class="status" id="statusText">Tip: choose an option to get instant feedback.</div>
+        </div>
+      </div>
+
+      <div id="quiz"></div>
+
+      <footer>
+        🔊 发音说明：使用浏览器 Web Speech API（Chrome/Edge 通常可用）。如果按钮提示不可用，可能是浏览器不支持或系统语音未启用。<br/>
+        语法小提醒：人用 <b>who</b>，物用 <b>which</b>，通用可用 <b>that</b>，地点常用 <b>where</b>。
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        level: "A2",
+        sentence: "This is the boy ____ helped me.",
+        options: ["which", "who", "where", "when"],
+        answer: "who",
+        explain: "指人（boy），作主语：who helped me."
+      },
+      {
+        level: "A2",
+        sentence: "I have a book ____ is very interesting.",
+        options: ["who", "which", "where", "why"],
+        answer: "which",
+        explain: "指物（book），作主语：which is very interesting."
+      },
+      {
+        level: "A2",
+        sentence: "That is the school ____ I study.",
+        options: ["where", "which", "who", "what"],
+        answer: "where",
+        explain: "地点用 where（= at/in which）：the school where I study."
+      },
+      {
+        level: "A2",
+        sentence: "She is the teacher ____ teaches English.",
+        options: ["who", "which", "where", "when"],
+        answer: "who",
+        explain: "teacher 指人，作主语：who teaches English."
+      },
+      {
+        level: "A2",
+        sentence: "I like the movie ____ we watched yesterday.",
+        options: ["who", "which", "where", "when"],
+        answer: "which",
+        explain: "movie 指物；which 作宾语：the movie which we watched."
+      },
+      {
+        level: "B1",
+        sentence: "This is the restaurant ____ has the best noodles in town.",
+        options: ["who", "which", "where", "when"],
+        answer: "which",
+        explain: "restaurant 这里作为“事物”作主语：which has the best noodles."
+      },
+      {
+        level: "B1",
+        sentence: "The man ____ lives next door is very friendly.",
+        options: ["who", "which", "where", "why"],
+        answer: "who",
+        explain: "man 指人；who 作主语：who lives next door."
+      },
+      {
+        level: "B1",
+        sentence: "I can’t find the keys ____ I left on the table.",
+        options: ["who", "which", "where", "when"],
+        answer: "which",
+        explain: "keys 指物；which 作宾语：which I left on the table."
+      },
+      {
+        level: "B1",
+        sentence: "That’s the place ____ we met for the first time.",
+        options: ["where", "which", "who", "what"],
+        answer: "where",
+        explain: "place 表地点；where = at which：the place where we met."
+      },
+      {
+        level: "B1",
+        sentence: "I know a girl ____ can speak three languages.",
+        options: ["who", "which", "where", "when"],
+        answer: "who",
+        explain: "girl 指人；who 作主语：who can speak three languages."
+      }
+    ];
+
+    const quizEl = document.getElementById("quiz");
+    const checkBtn = document.getElementById("checkBtn");
+    const hideBtn = document.getElementById("hideBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const scoreBadge = document.getElementById("scoreBadge");
+    const statusText = document.getElementById("statusText");
+
+    const supportsSpeech = ("speechSynthesis" in window) && ("SpeechSynthesisUtterance" in window);
+
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function render(){
+      quizEl.innerHTML = questions.map((q, idx) => {
+        const qid = `q${idx}`;
+        const safeSentence = escapeHtml(q.sentence);
+        const speakLabel = supportsSpeech ? "🔊 Speak" : "🔇 Speak (not supported)";
+        const speakDisabled = supportsSpeech ? "" : "disabled";
+        return `
+          <div class="q" data-idx="${idx}">
+            <div class="qhead">
+              <div>
+                <p class="qtitle"><b>Q${idx+1}.</b> ${safeSentence}</p>
+                <div class="qmeta">
+                  <span class="tag">Level: ${q.level}</span>
+                </div>
+              </div>
+              <button class="speak" type="button" ${speakDisabled} aria-label="Speak sentence" data-speak="${idx}">
+                ${speakLabel}
+              </button>
+            </div>
+
+            <div class="opts" role="radiogroup" aria-label="Question ${idx+1}">
+              ${q.options.map(opt => {
+                const oid = `${qid}_${opt}`;
+                return `
+                  <label class="opt" data-opt="${escapeHtml(opt)}">
+                    <input type="radio" name="${qid}" value="${escapeHtml(opt)}" />
+                    <div class="txt">${escapeHtml(opt)}</div>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+
+            <div class="feedback" aria-live="polite"></div>
+            <div class="explain"><b>Explanation:</b> ${escapeHtml(q.explain)}</div>
+          </div>
+        `;
+      }).join("");
+
+      // instant feedback
+      quizEl.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener("change", (e) => {
+          const qBox = e.target.closest(".q");
+          const idx = Number(qBox.dataset.idx);
+          const chosen = e.target.value;
+          const correct = questions[idx].answer;
+
+          qBox.classList.remove("correct", "wrong");
+
+          if (chosen === correct){
+            qBox.classList.add("correct");
+            qBox.querySelector(".feedback").textContent = "✅ Correct!";
+          } else {
+            qBox.classList.add("wrong");
+            qBox.querySelector(".feedback").textContent = "❌ Wrong.";
+          }
+
+          updateScoreBadge(false);
+        });
+      });
+
+      // speak button
+      quizEl.querySelectorAll("[data-speak]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const idx = Number(btn.dataset.speak);
+          speak(questions[idx].sentence);
+        });
+      });
+
+      updateScoreBadge(false);
+    }
+
+    function getUserAnswers(){
+      return questions.map((q, idx) => {
+        const picked = document.querySelector(`input[name="q${idx}"]:checked`);
+        return picked ? picked.value : null;
+      });
+    }
+
+    function computeScore(){
+      const ans = getUserAnswers();
+      let score = 0;
+      ans.forEach((a, i) => { if (a === questions[i].answer) score++; });
+      return { score, total: questions.length, answers: ans };
+    }
+
+    function updateScoreBadge(final){
+      const { score, total } = computeScore();
+      scoreBadge.textContent = `Score: ${score} / ${total}`;
+      if(final){
+        statusText.textContent = score === total
+          ? "Perfect! 🎉"
+          : "Checked. Review the green/red highlights + explanations.";
+      } else {
+        statusText.textContent = "Tip: choose an option to get instant feedback.";
+      }
+    }
+
+    function showAnswers(){
+      document.body.classList.add("show-answers");
+
+      // mark correct option + wrong picked
+      quizEl.querySelectorAll(".q").forEach(qBox => {
+        const idx = Number(qBox.dataset.idx);
+        const correct = questions[idx].answer;
+        const pickedEl = qBox.querySelector('input[type="radio"]:checked');
+        const picked = pickedEl ? pickedEl.value : null;
+
+        qBox.querySelectorAll(".opt").forEach(label => {
+          label.classList.remove("correct", "wrongpick");
+          const opt = label.dataset.opt;
+          if (opt === correct) label.classList.add("correct");
+          if (picked && opt === picked && picked !== correct) label.classList.add("wrongpick");
+        });
+      });
+
+      updateScoreBadge(true);
+    }
+
+    function hideAnswers(){
+      document.body.classList.remove("show-answers");
+      quizEl.querySelectorAll(".opt").forEach(label => label.classList.remove("correct", "wrongpick"));
+      statusText.textContent = "Answers hidden.";
+      updateScoreBadge(false);
+    }
+
+    function resetAll(){
+      if (supportsSpeech) window.speechSynthesis.cancel();
+
+      document.body.classList.remove("show-answers");
+      quizEl.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+      quizEl.querySelectorAll(".q").forEach(qBox => {
+        qBox.classList.remove("correct","wrong");
+        qBox.querySelector(".feedback").textContent = "";
+      });
+      quizEl.querySelectorAll(".opt").forEach(label => label.classList.remove("correct","wrongpick"));
+
+      statusText.textContent = "Reset done. Start again!";
+      updateScoreBadge(false);
+    }
+
+    function pickEnglishVoice(){
+      const voices = speechSynthesis.getVoices();
+      return voices.find(v => /^en(-|_)/i.test(v.lang))
+          || voices.find(v => /English/i.test(v.name))
+          || voices[0]
+          || null;
+    }
+
+    function speak(text){
+      if (!supportsSpeech) return;
+      window.speechSynthesis.cancel();
+
+      const utter = new SpeechSynthesisUtterance(text);
+      const v = pickEnglishVoice();
+      if (v) utter.voice = v;
+      utter.rate = 1.0;
+      utter.pitch = 1.0;
+      utter.lang = (v && v.lang) ? v.lang : "en-US";
+      window.speechSynthesis.speak(utter);
+    }
+
+    // Voice list may load async
+    if (supportsSpeech){
+      speechSynthesis.onvoiceschanged = () => {};
+    } else {
+      statusText.textContent = "⚠️ Your browser may not support Web Speech API.";
+      statusText.classList.add("warn");
+    }
+
+    checkBtn.addEventListener("click", showAnswers);
+    hideBtn.addEventListener("click", hideAnswers);
+    resetBtn.addEventListener("click", resetAll);
+
+    render();
+  </script>
+</body>
+</html>
